@@ -62,66 +62,67 @@ public class JsonSchemaToBean {
 		File javaFile = new File(outputDir, className+".java");
 		javaFile.createNewFile();
 		
-		BufferedWriter bw  = new BufferedWriter(new FileWriter(javaFile));
-		bw.write("package com.ibm");
-		bw.newLine();
-		bw.write("/**");
-		bw.newLine();
-		bw.write(" * ");
-		bw.write(node.optString("description",""));
-		bw.newLine();
-		bw.write(" */");
-		bw.newLine();
-		bw.write("public class ");
-		bw.write(className);
-		bw.write(" {");
-		bw.newLine();
-		
-		@SuppressWarnings("rawtypes")
-		Iterator keys = beanNode.keys();
-		
-		while(keys.hasNext()){
-			String propName = (String)keys.next();
-			JSONObject propNode = beanNode.getJSONObject(propName);
-			
-			if(propNode.keySet().isEmpty())
-				continue;
-			debug("- "+propName);
-			NodeType propType = NodeType.valueOf(propNode.getString("type"));
-			String propTypeStr = propType.toString();
-			switch(propType ){
-			case array: 
-				propTypeStr = resolveNode(propNode.getJSONObject("items"));
-				propTypeStr += "[]";
-				break;
-			case object: 
-				propTypeStr = resolveNode(propNode.getJSONObject("properties"));
-				break;
-			case string: 
-				propTypeStr = "String";
-				break;
-			}
-			
-			//output the java class attributes			
+		try(BufferedWriter bw  = new BufferedWriter(new FileWriter(javaFile));)
+		{
+			bw.write("package com.ibm");
+			bw.newLine();
 			bw.write("/**");
 			bw.newLine();
 			bw.write(" * ");
-			bw.write(propNode.optString("description"));
+			bw.write(node.optString("description",""));
 			bw.newLine();
 			bw.write(" */");
 			bw.newLine();
-			bw.write("private ");
-			bw.write(propTypeStr);
-			bw.write(" ");
-			bw.write(propName);
-			bw.write(";");
+			bw.write("public class ");
+			bw.write(className);
+			bw.write(" {");
 			bw.newLine();
+			
+			@SuppressWarnings("rawtypes")
+			Iterator keys = beanNode.keys();
+			
+			while(keys.hasNext()){
+				String propName = (String)keys.next();
+				JSONObject propNode = beanNode.getJSONObject(propName);
+				
+				if(propNode.keySet().isEmpty())
+					continue;
+				debug("- "+propName);
+				NodeType propType = NodeType.valueOf(propNode.getString("type"));
+				String propTypeStr = propType.toString();
+				switch(propType ){
+				case array: 
+					propTypeStr = resolveNode(propNode.getJSONObject("items"));
+					propTypeStr += "[]";
+					break;
+				case object: 
+					propTypeStr = resolveNode(propNode.getJSONObject("properties"));
+					break;
+				case string: 
+					propTypeStr = "String";
+					break;
+				}
+				
+				//output the java class attributes			
+				bw.write("/**");
+				bw.newLine();
+				bw.write(" * ");
+				bw.write(propNode.optString("description"));
+				bw.newLine();
+				bw.write(" */");
+				bw.newLine();
+				bw.write("private ");
+				bw.write(propTypeStr);
+				bw.write(" ");
+				bw.write(propName);
+				bw.write(";");
+				bw.newLine();
+				bw.newLine();
+			}
+			
 			bw.newLine();
+			bw.write("}");
 		}
-		
-		bw.newLine();
-		bw.write("}");
-		bw.close();
 		logIndent --;
 		return className;
 	}
@@ -134,14 +135,11 @@ public class JsonSchemaToBean {
 	}
 	
 	public static void main(String[] args) throws IOException, JSONException{
-		InputStream in = JsonSchemaToBean.class.getResourceAsStream("schema.json");
-		try{
+		try(InputStream in = JsonSchemaToBean.class.getResourceAsStream("schema.json");){
 			new JsonSchemaToBean()
 			.fromSchema(in)
 			.toFileInDir("C:\\Java\\gen");
-		} finally{
-			in.close();
-		}
+		} 
 	}
 	
 }
