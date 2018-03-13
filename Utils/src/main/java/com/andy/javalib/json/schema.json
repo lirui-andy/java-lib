@@ -1,0 +1,160 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Personal -_.Data Response",
+    "description": "The response from a commerce microservice for personal data information.",
+    "type": "object",
+    "properties": {
+        "data": {
+            "title": "Personal Data Array",
+            "description": "The array of the personal data.",
+            "type": "array",
+            "items": {
+                "title": "Personal Data",
+                "description": "Personal Data",
+                "type": "object",
+                "properties": {
+                    "businessContactInformation": {
+                        "title": "Business Contact Information",
+                        "description": "Details of how to contact an individual when acting as a worker, such as telephone number, email address and mailing address.",
+                        "type": "string"
+                    },
+                    "customerIdentifier": {
+                        "title": "Customer Identifier",
+                        "description": "Identifier assigned by a Organization to a Customer.",
+                        "type": "string"
+                    },
+                    "employeeNumber": {
+                        "title": "Employee Number",
+                        "description": "An identifier by which the Employee is known to the Organization.",
+                        "type": "string"
+                    },
+                    "employeeSerialNumber": {
+                        "title": "Employee Serial Number",
+                        "description": "Employee Serial Number is a six digit number that is assigned to personnel by employee and contractor management systems.",
+                        "type": "string"
+                    },
+                    "employeeName": {
+                        "title": "Employee Name",
+                        "description": "IBM Employee First and Last Name. SAP Abbreviation: ZZEMPL_NAME",
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "title": "First Name",
+                        "description": "The first or given name of a person.",
+                        "type": "string"
+                    },
+                    "fullName": {
+                        "title": "Full Name",
+                        "description": "The complete name of a person.",
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "title": "Last Name",
+                        "description": "The last or family name of a person.",
+                        "type": "string"
+                    },
+                    "electronicAddress": {
+                        "title": "Electronic Address",
+                        "description": "A non-physical, virtual address. Could be an e-mail, ftp, URL, etc.",
+                        "type": "string"
+                    },
+                    "electronicAddressDomain": {
+                        "title": "Electronic Address Domain",
+                        "description": "An Electronic Address of Electronic Address Domain which provides a segmentation of e-mail addresses into the common parts of the address which represents a service or network provider.",
+                        "type": "string"
+                    },
+                    "emailAddress": {
+                        "title": "Email Address",
+                        "description": "The string used to specify the source or destination of an electronic mail message.",
+                        "type": "string"
+                    },
+                    "nonemployeeContactInformation": {
+                        "title": "Non-Employee Contact Information",
+                        "description": "Information which details the way in which an individual (who is not an employee of the organization) can be reached. Examples include mailing address, telephone number and email address",
+                        "type": "string"
+                    },
+                    "personalContactInformation": {
+                        "title": "Personal Contact Information",
+                        "description": "Information which details the way in which an individual can be reached. Examples include mailing address, telephone number and email address",
+                        "type": "string"
+                    },
+                    "surname": {
+                        "title": "Surname",
+                        "description": "An Involved Party Name Component which is that part of a name which belongs to the family the Individual is a part of; for example, Smith, Mueller.",
+                        "type": "string"
+                    },
+                    "homePhoneNumber": {
+                        "title": "Home Phone Number",
+                        "description": "A unique telephone number which identifies the person's home connection to the telephone network.",
+                        "type": "string"
+                    },
+                    "mobilePhoneNumber": {
+                        "title": "Mobile Phone Number",
+                        "description": "A unique telephone number which identifies the person's connection to the cellular telephone network.",
+                        "type": "string"
+                    },
+                    "city": {
+                        "title": "City",
+                        "description": "A Geographic Area that is a municipality with legal power granted by a state charter.",
+                        "type": "string"
+                    },
+                    "continent": {
+                        "title": "Continent",
+                        "description": "Identification of a Continent.",
+                        "type": "string"
+                    },
+                    "country": {
+                        "title": "Country",
+                        "description": "The set of geopolitical nations as recognized by the coding system managed by the International Organization for Standardization (ISO).",
+                        "type": "string"
+                    },
+                    "county": {
+                        "title": "County",
+                        "description": "A territorial division exercising administrative, judicial, and political functions in some countries where English is the national language. County designated on the Address as defined by the local postal authority.",
+                        "type": "string"
+                    },
+                    "homeStreetAddress": {
+                        "title": "Home Street Address",
+                        "description": "A street address for where a person considers home.",
+                        "type": "string"
+                    },
+                    "legalAddress": {
+                        "title": "Legal Address",
+                        "description": "An Address that is used for statutory purposes; for example, Real Property may be recorded as Lot 43 in Plot 62.",
+                        "type": "string"
+                    },
+                    "postalAddress": {
+                        "title": "Postal Address",
+                        "description": "A mailing address used by postal services to deliver mail and packages to a location.",
+                        "type": "string"
+                    },
+                    "postcodeArea": {
+                        "title": "Postcode Area",
+                        "description": "A Geographic Area defined by postal authorities to facilitate mail delivery services; for example, the area defined by a Zip Code in the U.S..",
+                        "type": "string"
+                    },
+                    "province": {
+                        "title": "Province",
+                        "description": "A Geographic Area that is a political subdivision of a country.",
+                        "type": "string"
+                    },
+                    "state": {
+                        "title": "State",
+                        "description": "A Geographic Area that represents a first level legal and political subdivision of a country; for example, Virginia, Bavaria.",
+                        "type": "string"
+                    },
+                    "numberIdentifier": {
+                        "title": "Number Identifier",
+                        "description": "A number that is used as an identifier.",
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "additionalProperties": {}
+    },
+    "required": [
+        "data"
+    ],
+    "additionalProperties": {}
+}
