@@ -16,6 +16,7 @@ import org.json.JSONObject;
 public class JsonSchemaToBean {
 	JSONObject schema = null;
 	File outputDir = null;
+	String packageName;
 	int logIndent = -1;
 	
 	enum NodeType{
@@ -35,9 +36,10 @@ public class JsonSchemaToBean {
 		return this;
 	}
 	
-	public void toFileInDir(String outputDir) throws JSONException, IOException{
+	public void toFileInDir(String outputDir, String packageName) throws JSONException, IOException{
 		debug("Java file will output to: "+outputDir);
 		this.outputDir = new File(outputDir);
+		this.packageName = packageName;
 		resolveNode(schema);
 		debug("All set! Please goto ["+outputDir +"] and check.");
 	}
@@ -64,7 +66,9 @@ public class JsonSchemaToBean {
 		
 		try(BufferedWriter bw  = new BufferedWriter(new FileWriter(javaFile));)
 		{
-			bw.write("package com.ibm");
+			bw.write("package ");
+			bw.write(packageName);
+			bw.write(";");
 			bw.newLine();
 			bw.write("/**");
 			bw.newLine();
@@ -104,19 +108,12 @@ public class JsonSchemaToBean {
 				}
 				
 				//output the java class attributes			
-				bw.write("/**");
+				bw.write( genPropDeclare(propTypeStr, propName, propNode.optString("description")));
 				bw.newLine();
-				bw.write(" * ");
-				bw.write(propNode.optString("description"));
+				//output the getter/setter
+				bw.write( genGetMethod(propTypeStr, propName));
 				bw.newLine();
-				bw.write(" */");
-				bw.newLine();
-				bw.write("private ");
-				bw.write(propTypeStr);
-				bw.write(" ");
-				bw.write(propName);
-				bw.write(";");
-				bw.newLine();
+				bw.write( genSetMethod(propTypeStr, propName));
 				bw.newLine();
 			}
 			
@@ -125,6 +122,25 @@ public class JsonSchemaToBean {
 		}
 		logIndent --;
 		return className;
+	}
+
+	private String genPropDeclare(String type, String propName, String comment){
+		final String fmt = "/**\n * %3$s\n */\nprivate %1$s %2$s;";
+		return String.format(fmt, type, propName, comment);
+	}
+	
+	private String genGetMethod(String type, String propName) {
+		final String fmt = "public %1$s get%2$s(){return this.%3$s;}";
+		return String.format(fmt, type, upperFirst(propName), propName);
+	}
+
+	private String genSetMethod(String type, String propName) {
+		final String fmt = "public void set%1$s(%2$s %3$s){this.%3$s = %3$s;}";
+		return String.format(fmt, upperFirst(propName), type, propName);
+	}
+	
+	private Object upperFirst(String propName) {
+		return propName.substring(0,1).toUpperCase()+propName.substring(1);
 	}
 
 	private  void debug(String msg){
@@ -138,7 +154,7 @@ public class JsonSchemaToBean {
 		try(InputStream in = JsonSchemaToBean.class.getResourceAsStream("schema.json");){
 			new JsonSchemaToBean()
 			.fromSchema(in)
-			.toFileInDir("C:\\Java\\gen");
+			.toFileInDir("C:\\Java\\gen", "com.ibm.scw.commerce.rest.resource.personaldata");
 		} 
 	}
 	
