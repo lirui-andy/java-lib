@@ -27,7 +27,7 @@ public class JsonSchemaToBean {
 		BufferedReader br = new BufferedReader(new InputStreamReader(schemaStream));
 		String line = null;
 		StringBuilder str = new StringBuilder();
-		
+
 		while((line = br.readLine()) != null){
 			str.append(line);
 		}
